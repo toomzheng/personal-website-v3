@@ -39,7 +39,7 @@ export default function Home() {
           className="rounded-full overflow-hidden relative border-4 border-zinc-900"
         >
           <Image
-            src="/Notion Face Portrait.png"
+            src="/notion-face-portrait.png"
             alt="Tom Zheng"
             fill
             className="object-cover"
