@@ -1,101 +1,144 @@
-import Image from "next/image";
+'use client';
+
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [isStarted, setIsStarted] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-white relative">
+      <div className="relative">
+        {/* Circle with photo */}
+        <motion.div 
+          layout
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ 
+            scale: 1, 
+            opacity: 1,
+            x: isStarted ? -600 : -128,
+            y: isStarted ? -200 : -128,
+            width: isStarted ? '400px' : '256px',
+            height: isStarted ? '400px' : '256px',
+          }}
+          transition={{ 
+            duration: 0.8,
+            layout: { duration: 0.8 },
+            width: {
+              type: "spring",
+              stiffness: 100,
+              damping: 20
+            },
+            height: {
+              type: "spring",
+              stiffness: 100,
+              damping: 20
+            }
+          }}
+          className="rounded-full overflow-hidden relative border-4 border-zinc-900"
         >
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/Notion Face Portrait.png"
+            alt="Tom Zheng"
+            fill
+            className="object-cover"
+            priority
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </motion.div>
+
+        {/* Begin Button */}
+        <AnimatePresence>
+          {!isStarted && (
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ delay: 0.3 }}
+              onClick={() => setIsStarted(true)}
+              className="absolute left-1/2 -translate-x-1/2 mt-8 px-8 py-3 bg-zinc-900 text-white rounded-full text-lg font-medium hover:bg-zinc-800 transition-colors"
+            >
+              begin
+            </motion.button>
+          )}
+        </AnimatePresence>
+
+        {/* Text Content */}
+        <AnimatePresence>
+          {isStarted && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="absolute -left-[600px] top-[420px] w-[400px]"
+            >
+              <div className="space-y-6">
+                <div>
+                  <motion.h1 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 }}
+                    className="text-4xl font-normal text-zinc-900 leading-tight"
+                  >
+                    Hey! I'm
+                  </motion.h1>
+                  <motion.h1 
+                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    animate={{ 
+                      opacity: 1, 
+                      y: 0,
+                      scale: [1, 1.05, 1],
+                      transition: {
+                        duration: 1,
+                        delay: 0.9,
+                        scale: {
+                          times: [0, 0.5, 1],
+                          duration: 1000
+                        }
+                      }
+                    }}
+                    className="text-4xl font-bold text-zinc-900 leading-tight relative"
+                  >
+                    <span className="relative z-10">Tom Zheng</span>
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ 
+                        scaleX: 1,
+                        transition: {
+                          delay: 1.2,
+                          duration: 10,
+                          ease: "linear"
+                        }
+                      }}
+                      style={{ originX: 0 }}
+                      className="absolute bottom-0 left-0 h-3 w-full bg-zinc-200 -z-10"
+                    />
+                  </motion.h1>
+                </div>
+
+                <div className="space-y-3">
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.0 }}
+                    className="text-base text-zinc-600"
+                  >
+                    I'm a self taught builder, shipper, and creator studying data science @ UCSD on the side
+                  </motion.p>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.1 }}
+                    className="text-base text-zinc-600"
+                  >
+                    6 months ago I printed 'hello world' for the first time. I'm now building to improve productivity with technology
+                  </motion.p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </main>
   );
 }
