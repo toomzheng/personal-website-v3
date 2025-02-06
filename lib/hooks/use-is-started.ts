@@ -2,12 +2,12 @@ import { create } from 'zustand';
 
 interface StartedState {
   isStarted: boolean;
-  setIsStarted: (started: boolean) => void;
+  setIsStarted: (isStarted: boolean) => void;
 }
 
 export const useStartedStore = create<StartedState>((set) => ({
-  isStarted: false,
-  setIsStarted: (started) => set({ isStarted: started }),
+  isStarted: true, // Always start as true
+  setIsStarted: (isStarted) => set({ isStarted }),
 }));
 
 export const useIsStarted = () => useStartedStore((state) => state.isStarted);

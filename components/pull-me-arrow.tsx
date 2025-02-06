@@ -29,7 +29,7 @@ export function PullMeArrow() {
         />
         <text className="font-indie-flower text-[14px] dark:fill-white fill-black">
           <textPath href="#textPath" startOffset="50%" textAnchor="middle">
-            pull me!
+            click me!
           </textPath>
         </text>
 

@@ -7,6 +7,7 @@ import { LampContainer } from "./ui/lamp";
 import { useStartedStore } from "@/lib/hooks/use-is-started";
 import { useAspectRatio } from "@/lib/hooks/use-aspect-ratio";
 import { create } from "zustand";
+import { AnimatedTestimonials } from "./ui/animated-testimonials";
 
 interface LampState {
   showLamp: boolean;
@@ -24,15 +25,52 @@ export function ThemeLamp() {
   const { showLamp, setShowLamp } = useLampStore();
   const { isWideEnough } = useAspectRatio();
 
+  const testimonials = [
+    {
+      quote:
+        "Connecting people in every community to every non-profit across the contiguous United States, whether they are seeking help or looking to volunteer. Built with Python, FastAPI, Next.js, nGrok, AgentQL",
+      name: "Custom REST API for Nonprofit Search",
+      designation: "Jan 2025 - Present",
+      src: "/01-26-2025:020379.png",
+    },
+    {
+      quote:
+        "Keeping the carbon market accountable (and away from tampering) by utilizing convolutional neural networks to replace physical sampling. Buily with Python, PyTorch, NumPy, Pandas.",
+      name: "Machine Learning for Carbon Crediting",
+      designation: "Sept 2023 - March 2024",
+      src: "/C89E7483-85B0-4D44-B4D8-ABCA3BD8E989_1_105_c.jpeg",
+    },
+    {
+      quote:
+        "Never have to press alt+tab again. Instantly search how you want, through Perplexity, web search, context-backed search, and more. Built with Javascript, Shadow DOM, IndexedDB, Cerebras Inference.",
+      name: "Baby Browser Chrome Extension",
+      designation: "Dec 2024 - Present",
+      src: "/Create Chrome Extension.jpg",
+    },
+    {
+      quote:
+        "The most intelligent extension to email, ever. Coming soon.",
+      name: "Email Built for Organization",
+      designation: "Coming Soon...",
+      src: "/loading.jpg",
+    },
+    {
+      quote:
+        "Utilizing novel all fluid technologies and Realtime ELISA to rapidly treat, diagnose, and treat sepsis in the hospital. Lot's of CAD, CNC, manufacturing, and engineering.",
+      name: "Multifluidic Sepsis Solutions",
+      designation: "June 2023 - August 2023",
+      src: "/sepsis-preview.png",
+    },
+  ];
+
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (resolvedTheme === 'dark' && isStarted) {
       // When switching to dark mode, show lamp after a delay
       timer = setTimeout(() => {
         setShowLamp(true);
-      }, 300);
+      }, 500);
     } else {
-      // Hide lamp immediately when switching to light mode
       setShowLamp(false);
     }
     return () => clearTimeout(timer);
@@ -89,8 +127,9 @@ export function ThemeLamp() {
                 isWideEnough ? "" : "mt-32"
               }`}
             >
-              projects coming soon...
+              
             </motion.h1>
+            <AnimatedTestimonials testimonials={testimonials} autoplay={true} className="mt-8" />
           </LampContainer>
         </motion.div>
       )}
