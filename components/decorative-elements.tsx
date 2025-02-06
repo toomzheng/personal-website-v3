@@ -32,7 +32,7 @@ export function DecorativeElements() {
       <svg
         className={`absolute w-24 h-24 text-primary/20 dark:text-primary/10 transition-all duration-1000 ease-in-out
           ${isStarted 
-            ? 'top-[55%] left-[30%] rotate-[150deg] scale-90' 
+            ? 'top-[53%] left-[30%] rotate-[150deg] scale-90' 
             : 'top-40 left-32'
           }`}
         viewBox="0 0 100 100"

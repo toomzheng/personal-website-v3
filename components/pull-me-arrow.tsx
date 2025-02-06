@@ -9,7 +9,7 @@ export function PullMeArrow() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 1, duration: 0.8 }}
-      className="fixed top-12 right-36 z-50 pointer-events-none"
+      className="fixed top-12 right-16 z-50 pointer-events-none"
     >
       <svg
         width="160"
@@ -44,8 +44,11 @@ export function PullMeArrow() {
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{
-            duration: 1.5,
-            delay: 1,
+            duration: 2.5,
+            delay: 2,
+            repeat: Infinity,
+            repeatType: "loop",
+            repeatDelay: 1,
             ease: "easeInOut"
           }}
         />

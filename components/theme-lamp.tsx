@@ -26,7 +26,7 @@ export function ThemeLamp() {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (resolvedTheme === 'dark' && isStarted && isWideEnough) {
+    if (resolvedTheme === 'dark' && isStarted) {
       // When switching to dark mode, show lamp after a delay
       timer = setTimeout(() => {
         setShowLamp(true);
@@ -36,7 +36,7 @@ export function ThemeLamp() {
       setShowLamp(false);
     }
     return () => clearTimeout(timer);
-  }, [resolvedTheme, isStarted, setShowLamp, isWideEnough]);
+  }, [resolvedTheme, isStarted, setShowLamp]);
 
   const lampVariants = {
     initial: { opacity: 0 },
@@ -50,8 +50,6 @@ export function ThemeLamp() {
     exit: { opacity: 0, y: 100, transition: { duration: 0.3 } }
   };
 
-  if (!isWideEnough) return null;
-
   return (
     <AnimatePresence mode="wait">
       {(showLamp && isStarted) && (
@@ -61,9 +59,22 @@ export function ThemeLamp() {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="fixed inset-0 z-50"
+          className={`${isWideEnough ? 'fixed' : 'absolute'} z-0 transition-all duration-500 ease-in-out`}
+          style={{
+            inset: isWideEnough ? "0 0 0 0" : "auto 0 0 0",
+            height: isWideEnough ? "100vh" : "45vh",
+            minHeight: isWideEnough ? "100vh" : "300px",
+            top: isWideEnough ? 0 : "auto",
+            bottom: isWideEnough ? 0 : "-10vh"
+          }}
         >
-          <LampContainer className="h-[60vh] absolute right-0 w-1/2">
+          <LampContainer 
+            className={`absolute transition-all duration-500 ease-in-out ${
+              isWideEnough 
+                ? "h-[60vh] right-0 w-1/2" 
+                : "h-full w-full"
+            }`}
+          >
             <motion.h1
               variants={textVariants}
               initial="initial"
@@ -74,7 +85,9 @@ export function ThemeLamp() {
                 duration: 0.8,
                 ease: "easeInOut",
               }}
-              className="mt-8 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
+              className={`mt-8 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl ${
+                isWideEnough ? "" : "mt-32"
+              }`}
             >
               Dark Mode
             </motion.h1>
