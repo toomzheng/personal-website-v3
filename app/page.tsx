@@ -98,7 +98,7 @@ export default function Home() {
                   exit={{ opacity: 0 }}
                   style={{
                     position: 'absolute',
-                    top: '460px',
+                    top: '550px',
                     transform: isWideEnough ? 'translateX(-90px)' : 'translateX(-50%)',
                     left: isWideEnough ? '0' : '50%',
                     width: '100%',
