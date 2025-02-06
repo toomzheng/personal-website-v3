@@ -38,28 +38,35 @@ export function ThemeLamp() {
         "Keeping the carbon market accountable (and away from tampering) by utilizing convolutional neural networks to replace physical sampling. Buily with Python, PyTorch, NumPy, Pandas.",
       name: "Machine Learning for Carbon Crediting",
       designation: "Sept 2023 - March 2024",
-      src: "/C89E7483-85B0-4D44-B4D8-ABCA3BD8E989_1_105_c.jpeg",
+      src: "/carboncredits.png",
     },
     {
       quote:
-        "Never have to press alt+tab again. Instantly search how you want, through Perplexity, web search, context-backed search, and more. Built with Javascript, Shadow DOM, IndexedDB, Cerebras Inference.",
+        "Instantly search how you want without alt+tab, AI search, web search, and context-backed search. Built with Javascript, Shadow DOM, IndexedDB, Cerebras.",
       name: "Baby Browser Chrome Extension",
       designation: "Dec 2024 - Present",
-      src: "/Create Chrome Extension.jpg",
+      src: "/babybrowser.png",
     },
     {
       quote:
         "The most intelligent extension to email, ever. Coming soon.",
       name: "Email Built for Organization",
       designation: "Coming Soon...",
-      src: "/loading.jpg",
+      src: "/crane.jpg",
     },
     {
       quote:
         "Utilizing novel all fluid technologies and Realtime ELISA to rapidly treat, diagnose, and treat sepsis in the hospital. Lot's of CAD, CNC, manufacturing, and engineering.",
       name: "Multifluidic Sepsis Solutions",
       designation: "June 2023 - August 2023",
-      src: "/sepsis-preview.png",
+      src: "/fluidics.png",
+    },
+    {
+      quote:
+        "Scaling the premier student org for startups, builders, and creatives at UCSD. Sponsored by OpenAI, Anthropic, Vercel, Qualcomm, etc.",
+      name: "Scaling SDxUCSD",
+      designation: "October 2024 - Present",
+      src: "/sdxucsd.png",
     },
   ];
 

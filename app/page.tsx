@@ -164,6 +164,9 @@ export default function Home() {
               )}
             </AnimatePresence>
           </div>
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center text-sm text-zinc-1000 dark:text-zinc-100">
+            Tom Zheng - 2025 ❤️
+          </div>
         </div>
       </main>
     </MotionConfig>
