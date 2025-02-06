@@ -5,7 +5,6 @@ import { useStartedStore } from '@/lib/hooks/use-is-started';
 import { PullMeArrow } from '@/components/pull-me-arrow';
 import { useAspectRatio } from '@/lib/hooks/use-aspect-ratio';
 import { SocialIcons } from '@/components/social-icons';
-import { DraggableBar } from '@/components/ui/draggable-bar';
 import { useState } from 'react';
 import { FlipProfile } from '@/components/ui/flip-profile';
 import { HoverArrow } from '@/components/hover-arrow';
@@ -27,7 +26,6 @@ export default function Home() {
       <main className="min-h-screen w-full transition-colors bg-background text-foreground overflow-y-auto">
         <div className="w-full max-w-7xl mx-auto p-4 sm:p-8 md:p-16 lg:p-24">
           <PullMeArrow />
-          <DraggableBar x={barPosition.x} y={barPosition.y} />
           <div className="relative w-full">
             <motion.div
               layout="preserve-aspect"
@@ -119,19 +117,19 @@ export default function Home() {
                     }}
                   >
                     <motion.h1
-                      className="text-2xl sm:text-3xl md:text-4xl font-normal text-zinc-900 dark:text-zinc-100 leading-tight"
+                      className="text-2xl sm:text-3xl md:text-2xl font-normal text-zinc-900 dark:text-zinc-100 leading-tight"
                     >
                       Hey! I'm
                     </motion.h1>
                     <motion.h1
-                      className="text-2xl sm:text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight relative inline-block"
+                      className="text-2xl sm:text-3xl md:text-5xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight relative inline-block"
                     >
                       <span className="relative z-10">Tom Zheng</span>
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         transition={{
-                          duration: 0.4,
+                          duration: 20,
                           ease: [0.23, 1, 0.32, 1],
                           delay: 0.3
                         }}
@@ -154,7 +152,7 @@ export default function Home() {
                       I'm a self taught builder, constantly shipping and greating while studying data science @ UCSD on the side
                     </p>
                     <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-[45vh]`}>
-                      6 months ago I printed 'hello world' for the first time. I'm now building to improve productivity with technology. <b><em>Flip the switch</em></b> in the top right to see my projects!
+                      6 months ago I printed 'hello world' for the first time. I'm now building to improve productivity with technology. <b><em>Flip the switch</em></b> in the <b><em>top right</em></b> to see my projects!
                     </p>
                     <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-[45vh]`}>
                       If you're looking to build something cool, reach out and let's chat! - <a href="mailto:tomzheng1012@gmail.com?subject=let's%20chat" className="font-bold hover:text-zinc-900 dark:hover:text-zinc-300 transition-colors">tomzheng1012@gmail.com</a> - I always respond.
