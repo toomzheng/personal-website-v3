@@ -1,144 +1,172 @@
 'use client';
 
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, MotionConfig, AnimatePresence } from 'framer-motion';
+import { useStartedStore } from '@/lib/hooks/use-is-started';
+import { PullMeArrow } from '@/components/pull-me-arrow';
+import { useAspectRatio } from '@/lib/hooks/use-aspect-ratio';
+import { SocialIcons } from '@/components/social-icons';
 import { useState } from 'react';
+import { FlipProfile } from '@/components/ui/flip-profile';
+import { HoverArrow } from '@/components/hover-arrow';
 
 export default function Home() {
-  const [isStarted, setIsStarted] = useState(false);
+  const { isStarted, setIsStarted } = useStartedStore();
+  const { isWideEnough } = useAspectRatio();
+  const [barPosition, setBarPosition] = useState({ x: 100, y: 100 });
+
+  const springConfig = {
+    type: "spring",
+    stiffness: 100,
+    damping: 20,
+    mass: 0.5,
+  };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-white relative">
-      <div className="relative">
-        {/* Circle with photo */}
-        <motion.div 
-          layout
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ 
-            scale: 1, 
-            opacity: 1,
-            x: isStarted ? -600 : -128,
-            y: isStarted ? -200 : -128,
-            width: isStarted ? '400px' : '256px',
-            height: isStarted ? '400px' : '256px',
-          }}
-          transition={{ 
-            duration: 0.8,
-            layout: { duration: 0.8 },
-            width: {
-              type: "spring",
-              stiffness: 100,
-              damping: 20
-            },
-            height: {
-              type: "spring",
-              stiffness: 100,
-              damping: 20
-            }
-          }}
-          className="rounded-full overflow-hidden relative border-4 border-zinc-900"
-        >
-          <Image
-            src="/notion-face-portrait.png"
-            alt="Tom Zheng"
-            fill
-            className="object-cover"
-            priority
-          />
-        </motion.div>
-
-        {/* Begin Button */}
-        <AnimatePresence>
-          {!isStarted && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ delay: 0.3 }}
-              onClick={() => setIsStarted(true)}
-              className="absolute left-1/2 -translate-x-1/2 mt-8 px-8 py-3 bg-zinc-900 text-white rounded-full text-lg font-medium hover:bg-zinc-800 transition-colors"
-            >
-              begin
-            </motion.button>
-          )}
-        </AnimatePresence>
-
-        {/* Text Content */}
-        <AnimatePresence>
-          {isStarted && (
+    <MotionConfig transition={springConfig}>
+      <main className="min-h-screen w-full transition-colors bg-background text-foreground overflow-y-auto">
+        <div className="w-full max-w-7xl mx-auto p-4 sm:p-8 md:p-16 lg:p-24">
+          <PullMeArrow />
+          <div className="relative w-full">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="absolute -left-[600px] top-[420px] w-[400px]"
+              layout="preserve-aspect"
+              className="flex flex-col items-center justify-center gap-8"
+              style={{
+                alignItems: isStarted ? (isWideEnough ? 'flex-start' : 'center') : 'center',
+                transform: isStarted ? (isWideEnough ? 'translate(-8%, 5vh)' : 'translate(0, 5vh)') : 'none',
+                transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)'
+              }}
             >
-              <div className="space-y-6">
-                <div>
-                  <motion.h1 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7 }}
-                    className="text-4xl font-normal text-zinc-900 leading-tight"
-                  >
-                    Hey! I'm
-                  </motion.h1>
-                  <motion.h1 
-                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0,
-                      scale: [1, 1.05, 1],
-                      transition: {
-                        duration: 1,
-                        delay: 0.9,
-                        scale: {
-                          times: [0, 0.5, 1],
-                          duration: 1000
-                        }
-                      }
-                    }}
-                    className="text-4xl font-bold text-zinc-900 leading-tight relative"
-                  >
-                    <span className="relative z-10">Tom Zheng</span>
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      animate={{ 
-                        scaleX: 1,
-                        transition: {
-                          delay: 1.2,
-                          duration: 10,
-                          ease: "linear"
-                        }
-                      }}
-                      style={{ originX: 0 }}
-                      className="absolute bottom-0 left-0 h-3 w-full bg-zinc-200 -z-10"
-                    />
-                  </motion.h1>
-                </div>
+              {/* Circle with photo */}
+              <motion.div
+                layout="preserve-aspect"
+                initial={false}
+                animate={{
+                  width: isStarted ? 400 : 256,
+                  height: isStarted ? 400 : 256,
+                  y: isStarted ? -50 : 0,  // Move up by 50px when started
+                  scale: 1,
+                  transition: {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 20,
+                    mass: 0.5,
+                  }
+                }}
+                style={{
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: '2px solid',
+                  borderColor: 'black',
+                  position: 'relative'
+                }}
+                className="z-10"
+              >
+                <FlipProfile />
+                <HoverArrow />
+              </motion.div>
 
-                <div className="space-y-3">
-                  <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.0 }}
-                    className="text-base text-zinc-600"
-                  >
-                    I'm a self taught builder, shipper, and creator studying data science @ UCSD on the side
-                  </motion.p>
-                  <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.1 }}
-                    className="text-base text-zinc-600"
-                  >
-                    6 months ago I printed 'hello world' for the first time. I'm now building to improve productivity with technology
-                  </motion.p>
-                </div>
-              </div>
+
+              {/* Social Icons */}
+              <motion.div
+                layout="preserve-aspect"
+                initial={false}
+                className={`mt-8 flex ${isStarted
+                    ? (isWideEnough ? 'absolute -right-32 top-32' : 'fixed right-8 top-1/2 -translate-y-1/2')
+                    : 'justify-center w-full'
+                  }`}
+                style={{
+                  zIndex: 20
+                }}
+              >
+                <SocialIcons />
+              </motion.div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </main>
+
+            {/* Text Content */}
+            <AnimatePresence mode="wait">
+              {isStarted && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+                    transition: {
+                      duration: 0.8,
+                      ease: "easeOut",
+                      delay: 0.3
+                    }
+                  }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    position: 'absolute',
+                    top: '550px',
+                    transform: isWideEnough ? 'translateX(-90px)' : 'translateX(-50%)',
+                    left: isWideEnough ? '0' : '50%',
+                    width: '100%',
+                    maxWidth: '400px',
+                    zIndex: 10
+                  }}
+                  className="space-y-6"
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.4,
+                      ease: "easeOut",
+                      delay: 0.1
+                    }}
+                  >
+                    <motion.h1
+                      className="text-2xl sm:text-3xl md:text-2xl font-normal text-zinc-900 dark:text-zinc-100 leading-tight"
+                    >
+                      Hey! I'm
+                    </motion.h1>
+                    <motion.h1
+                      className="text-2xl sm:text-3xl md:text-5xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight relative inline-block"
+                    >
+                      <span className="relative z-10">Tom Zheng</span>
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{
+                          duration: 20,
+                          ease: [0.23, 1, 0.32, 1],
+                          delay: 0.3
+                        }}
+                        className="absolute bottom-0 left-0 h-3 w-full bg-zinc-200 dark:bg-zinc-800 -z-10 origin-left"
+                      />
+                    </motion.h1>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.4,
+                      ease: "easeOut",
+                      delay: 0.2
+                    }}
+                    className="space-y-3"
+                  >
+                    <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400`}>
+                      I'm a self taught builder, constantly shipping and greating while studying data science @ UCSD on the side
+                    </p>
+                    <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-[45vh]`}>
+                      6 months ago I printed 'hello world' for the first time. I'm now building to improve productivity with technology. <b><em>Flip the switch</em></b> in the <b><em>top right</em></b> to see my projects!
+                    </p>
+                    <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-[45vh]`}>
+                      If you're looking to build something cool, reach out and let's chat! - <a href="mailto:tomzheng1012@gmail.com?subject=let's%20chat" className="font-bold hover:text-zinc-900 dark:hover:text-zinc-300 transition-colors">tomzheng1012@gmail.com</a> - I always respond.
+                    </p>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center text-sm text-zinc-1000 dark:text-zinc-100">
+            Tom Zheng - 2025 ❤️
+          </div>
+        </div>
+      </main>
+    </MotionConfig>
   );
 }
