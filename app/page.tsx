@@ -40,6 +40,7 @@ export default function Home() {
                 animate={{
                   width: isStarted ? 400 : 256,
                   height: isStarted ? 400 : 256,
+                  y: isStarted ? -50 : 0,  // Move up by 50px when started
                   scale: 1,
                   transition: {
                     type: "spring",
@@ -105,29 +106,34 @@ export default function Home() {
             <AnimatePresence mode="wait">
               {isStarted && (
                 <motion.div
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0 }}
                   animate={{ 
                     opacity: 1,
-                    y: 100,
-                    x: isWideEnough ? -90 : 0,
                     transition: {
-                      duration: 0.6,
-                      ease: [0.23, 1, 0.32, 1]
+                      duration: 0.8,
+                      ease: "easeOut",
+                      delay: 0.3
                     }
                   }}
-                  exit={{ opacity: 0, y: 40 }}
-                  className={`${
-                    isWideEnough 
-                      ? 'absolute left-0' 
-                      : 'mx-auto'
-                  } w-full max-w-[400px] space-y-6 z-10 top-[460px]`}
+                  exit={{ opacity: 0 }}
+                  id="text-content"
+                  style={{
+                    position: 'absolute',
+                    top: '460px',
+                    transform: isWideEnough ? 'translateX(-90px)' : 'translateX(-50%)',
+                    left: isWideEnough ? '0' : '50%',
+                    width: '100%',
+                    maxWidth: '400px',
+                    zIndex: 10
+                  }}
+                  className="space-y-6"
                 >
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{
-                      duration: 0.5,
-                      ease: [0.23, 1, 0.32, 1],
+                      duration: 0.4,
+                      ease: "easeOut",
                       delay: 0.1
                     }}
                   >
@@ -154,11 +160,11 @@ export default function Home() {
                   </motion.div>
 
                   <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{
-                      duration: 0.5,
-                      ease: [0.23, 1, 0.32, 1],
+                      duration: 0.4,
+                      ease: "easeOut",
                       delay: 0.2
                     }}
                     className="space-y-3"
@@ -166,8 +172,11 @@ export default function Home() {
                     <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400`}>
                       I'm a self taught builder, constantly shipping and greating while studying data science @ UCSD on the side
                     </p>
-                    <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-[45vh]`}>
+                    <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400`}>
                       6 months ago I printed 'hello world' for the first time. I'm now building to improve productivity with technology. Pull the switch in the top right to see my projects!
+                    </p>
+                    <p className={`text-sm sm:text-base text-zinc-600 dark:text-zinc-400 ${isWideEnough ? '' : 'mb-[45vh]'}`}>
+                      If you're looking to build something cool, reach out and let's chat! - <b>tomzheng1012@gmail.com</b> - I always respond.
                     </p>
                   </motion.div>
                 </motion.div>

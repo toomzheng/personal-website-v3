@@ -1,44 +1,32 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useSpring } from 'framer-motion';
+import { create } from 'zustand';
+import { useEffect } from 'react';
+
+interface AspectRatioStore {
+  isWideEnough: boolean;
+  setIsWideEnough: (isWide: boolean) => void;
+}
+
+const useAspectRatioStore = create<AspectRatioStore>((set) => ({
+  isWideEnough: true,
+  setIsWideEnough: (isWide) => set({ isWideEnough: isWide }),
+}));
 
 export function useAspectRatio() {
-  const [aspectRatio, setAspectRatio] = useState(16/9);
-  const [isWideEnough, setIsWideEnough] = useState(true);
-  
-  // Smoothly animated aspect ratio value
-  const smoothAspectRatio = useSpring(aspectRatio, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  const { isWideEnough, setIsWideEnough } = useAspectRatioStore();
 
   useEffect(() => {
     const updateAspectRatio = () => {
-      const ratio = window.innerWidth / window.innerHeight;
-      setAspectRatio(ratio);
-      setIsWideEnough(ratio > 11/9);
+      const aspectRatio = window.innerWidth / window.innerHeight;
+      const minWidth = 1024; // Switch to narrow mode if width is less than 1024px
+      setIsWideEnough(aspectRatio >= 11/9 && window.innerWidth >= minWidth);
     };
 
-    // Initial check
     updateAspectRatio();
+    window.addEventListener('resize', updateAspectRatio);
+    return () => window.removeEventListener('resize', updateAspectRatio);
+  }, [setIsWideEnough]);
 
-    // Throttled resize handler
-    let timeoutId: NodeJS.Timeout;
-    const throttledResize = () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(updateAspectRatio, 100);
-    };
-
-    window.addEventListener('resize', throttledResize);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', throttledResize);
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, []);
-
-  return { aspectRatio: smoothAspectRatio, isWideEnough };
+  return { isWideEnough };
 }

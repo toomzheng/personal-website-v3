@@ -89,7 +89,7 @@ export function ThemeLamp() {
                 isWideEnough ? "" : "mt-32"
               }`}
             >
-              Dark Mode
+              projects coming soon...
             </motion.h1>
           </LampContainer>
         </motion.div>

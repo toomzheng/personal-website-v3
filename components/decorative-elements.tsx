@@ -1,100 +1,114 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIsStarted } from '@/lib/hooks/use-is-started';
+import { useAspectRatio } from "@/lib/hooks/use-aspect-ratio";
+import { motion } from "framer-motion";
+import { ThemeLamp } from "./theme-lamp";
 
 export function DecorativeElements() {
   const isStarted = useIsStarted();
+  const { isWideEnough } = useAspectRatio();
+  const [textBottom, setTextBottom] = useState(0);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      const textElement = document.getElementById('text-content');
+      if (textElement) {
+        const rect = textElement.getBoundingClientRect();
+        setTextBottom(rect.bottom + window.scrollY);
+      }
+    };
+
+    // Update position initially and on resize
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    
+    // Update position periodically to handle dynamic content changes
+    const interval = setInterval(updatePosition, 100);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+    <motion.div
+      className="fixed pointer-events-none"
+      style={{
+        ...(isWideEnough 
+          ? {
+              right: 0,
+              top: '50%',
+              transform: 'translateY(-50%)'
+            }
+          : {
+              left: '50%',
+              transform: 'translateX(-50%)',
+              top: textBottom ? `${textBottom + 50}px` : '100vh', // Add 50px spacing
+              zIndex: 0
+            }
+        )
+      }}
+    >
       {/* Squiggly line */}
       <svg
         className={`absolute w-24 h-24 text-primary/20 dark:text-primary/10 transition-all duration-1000 ease-in-out
-          ${isStarted 
-            ? 'top-[20%] right-[15%] rotate-45 scale-75' 
-            : 'top-20 right-32'
-          }`}
+          ${isWideEnough ? '-left-12 top-24' : '-left-12 -top-24'}`}
         viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M10 50 Q 25 30, 40 50 T 70 50 T 100 50"
+          d="M10 50 Q25 25, 40 50 T70 50"
           fill="none"
           stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
+          strokeWidth="2"
           className="animate-draw"
         />
       </svg>
 
-      {/* Arrow */}
+      {/* Dots */}
       <svg
         className={`absolute w-24 h-24 text-primary/20 dark:text-primary/10 transition-all duration-1000 ease-in-out
-          ${isStarted 
-            ? 'top-[53%] left-[30%] rotate-[150deg] scale-90' 
-            : 'top-40 left-32'
-          }`}
+          ${isWideEnough ? '-left-12 top-48' : '-left-12 -top-48'}`}
         viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="20" cy="50" r="3" fill="currentColor" className="animate-pulse" />
+        <circle cx="40" cy="50" r="3" fill="currentColor" className="animate-pulse delay-75" />
+        <circle cx="60" cy="50" r="3" fill="currentColor" className="animate-pulse delay-150" />
+      </svg>
+
+      {/* Spiral */}
+      <svg
+        className={`absolute w-24 h-24 text-primary/20 dark:text-primary/10 transition-all duration-1000 ease-in-out
+          ${isWideEnough ? '-left-12 top-72' : '-left-12 -top-72'}`}
+        viewBox="0 0 100 100"
       >
         <path
-          d="M20 80 C 40 60, 60 40, 80 20"
+          d="M50 10 C70 10, 70 30, 50 30 C30 30, 30 50, 50 50 C70 50, 70 70, 50 70"
           fill="none"
           stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-          className="animate-draw"
-        />
-        <path
-          d="M60 20 L 80 20 L 80 40"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
+          strokeWidth="2"
           className="animate-draw"
         />
       </svg>
 
-      {/* Circular scribble */}
+      {/* Wave */}
       <svg
-        className={`absolute w-32 h-32 text-primary/20 dark:text-primary/10 transition-all duration-1000 ease-in-out
-          ${isStarted 
-            ? 'bottom-[10%] left-[90%] rotate-90 scale-125' 
-            : 'bottom-32 left-40'
-          }`}
+        className={`absolute w-24 h-24 text-primary/20 dark:text-primary/10 transition-all duration-1000 ease-in-out
+          ${isWideEnough ? '-left-12 top-96' : '-left-12 -top-96'}`}
         viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M50 20 C 70 20, 80 30, 80 50 C 80 70, 70 80, 50 80 C 30 80, 20 70, 20 50 C 20 30, 30 20, 50 20"
+          d="M10 50 C20 40, 30 60, 40 50 C50 40, 60 60, 70 50 C80 40, 90 60, 100 50"
           fill="none"
           stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
+          strokeWidth="2"
           className="animate-draw"
         />
       </svg>
 
-      {/* Wavy underline */}
-      <svg
-        className={`absolute w-40 h-16 text-primary/20 dark:text-primary/10 transition-all duration-1000 ease-in-out
-          ${isStarted 
-            ? 'bottom-[90%] right-[90%] -rotate-12 scale-150' 
-            : 'bottom-20 right-40'
-          }`}
-        viewBox="0 0 160 40"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0 20 Q 20 0, 40 20 T 80 20 T 120 20 T 160 20"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-          className="animate-draw"
-        />
-      </svg>
-    </div>
+      <ThemeLamp />
+    </motion.div>
   );
 }
